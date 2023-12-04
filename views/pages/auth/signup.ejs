@@ -1,0 +1,59 @@
+<%- include("../../Partials/header.ejs")%>
+<%- include("../../Partials/navbar.ejs") %>
+
+
+<div class="h-screen">
+    <div class="hero min-h-screen bg-base-200">
+        <div class="hero-content flex-col lg:flex-row-reverse w-full md:w-2/5 mx-auto">
+          <div class=" w-full  shadow-2xl bg-base-100">
+            <form class="card-body" action="/auth/signup" method="post">
+                <h1 class="text-center text-2xl">Signup</h1> <hr>
+              <div class="form-control">
+                <label class="label">
+                  <span class="label-text">Username</span>
+                </label>
+                <input type="text" name="username" placeholder="Username" class="input input-bordered rounded-md text-black" value="<%= value.username ? value.username: '' %>"  />
+                <span class="error mt-2"><%= error.username && error.username %></span>
+              </div>
+              <div class="form-control">
+                <label class="label">
+                  <span class="label-text">Email</span>
+                </label>
+                <input type="email" name="email" placeholder="email" class="input input-bordered rounded-md text-black"  value="<%= value.email ? value.email: '' %>"/>
+                <span class="error mt-2"><%= error.email && error.email %></span>
+                
+              </div>
+              <div class="form-control">
+                <label class="label">
+                  <span class="label-text">Password</span>
+                </label>
+                <input type="password" name="password" placeholder="password" class="input input-bordered rounded-md text-black" value="<%= value.password ? value.password: '' %>" />
+                <span class="error mt-2"><%= error.password && error.password %></span>
+              
+              </div>
+              <div class="form-control">
+                <label class="label">
+                  <span class="label-text">Confirm Password</span>
+                </label>
+                <input type="password" name="confirmPassword" placeholder="password" class="input input-bordered rounded-md text-black"  />
+                <span class="error mt-2"><%= error.confirmPassword && error.confirmPassword %></span>
+              
+              </div>
+              <div class="form-control mt-6">
+                <button class="btn btn-primary">Signup</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+</div>
+
+
+
+<%- include("../../Partials/footer.ejs")%>
+
+    
+</body>
+
+</html>
