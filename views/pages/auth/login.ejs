@@ -13,13 +13,15 @@
                 <label class="label">
                   <span class="label-text">Email</span>
                 </label>
-                <input type="email" name="email" placeholder="email" class="input input-bordered rounded-md text-black"  />
+                <input type="email" name="email" placeholder="email" class="input input-bordered rounded-md text-black"  value="<%= value.email ? value.email: '' %>"/>
+                <span class="error mt-2"><%= error.email && error.email %></span>
               </div>
               <div class="form-control">
                 <label class="label">
                   <span class="label-text">Password</span>
                 </label>
-                <input type="password" name="password" placeholder="password" class="input input-bordered rounded-md text-black"  />
+                <input type="password" name="password" placeholder="password" class="input input-bordered rounded-md text-black"  value="<%= value.password ? value.password: '' %>"/>
+                <span class="error mt-2"><%= error.password && error.password %></span>
               
               </div>
             
