@@ -1,8 +1,8 @@
-<div class=" w-full mx-auto bg-neutral">
-  <div class="navbar bg-neutral text-white  md:w-4/5 w-full mx-auto ">
+<div class="w-full mx-auto bg-neutral">
+  <div class="navbar bg-neutral text-white md:w-4/5 w-full mx-auto">
     <div class="navbar-start">
       <div class="dropdown">
-        <div tabindex="0" role="button" class="btn btn-ghost lg:hidden ">
+        <div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             class="h-5 w-5"
@@ -33,7 +33,13 @@
       </ul>
     </div>
     <div class="navbar-end">
-      <a class="btn">Login</a>
+      <% if(isLoggedIn){ %>
+      <a href="/auth/logout" class="btn">Logout</a>
+
+      <%}else{%>
+
+      <a href="/auth/login" class="btn">Login</a>
+      <%}%>
     </div>
   </div>
 </div>

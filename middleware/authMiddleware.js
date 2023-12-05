@@ -1,12 +1,11 @@
 const User = require("../Models/User");
-
-const bindUserWithRequiest = async () => {
-  return (req, res, next) => {
+exports.bindUserWithRequiest = () => {
+  return async (req, res, next) => {
     if (!req.session.isLoggedIn) {
       return next();
     }
     try {
-      const user = User.findById(req.session.user._id);
+      const user = await User.findById(req.session.user._id);
       req.user = user;
       next();
     } catch (error) {
@@ -16,4 +15,9 @@ const bindUserWithRequiest = async () => {
   };
 };
 
-module.exports = bindUserWithRequiest;
+exports.isAuthenticets = (req, res, next) => {
+    if(!req.session.isLoggedIn){
+         res.redirect('/auth/login');
+    }
+    next()
+};
