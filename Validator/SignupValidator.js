@@ -21,17 +21,16 @@ const signupValidator = [
       }
     })
     .trim()
-    .normalizeEmail()
-    ,
-    body("password")
-    .isLength({min:5}).withMessage("Password muste be minimum 5 chars"),
-    body("confirmPassword")
-    .custom((confirmPassword,{req})=> {
-        if(confirmPassword !== req.body.password){
-            throw new Error("Password dosent match")
-        }
-        return true
-    })
+    .normalizeEmail(),
+  body("password")
+    .isLength({ min: 5 })
+    .withMessage("Password muste be minimum 5 chars"),
+  body("confirmPassword").custom((confirmPassword, { req }) => {
+    if (confirmPassword !== req.body.password) {
+      throw new Error("Password dosent match");
+    }
+    return true;
+  }),
 ];
 
-module.exports = signupValidator
+module.exports = signupValidator;

@@ -2,6 +2,8 @@ const bcrypt = require("bcrypt");
 const User = require("../Models/User");
 const { validationResult } = require("express-validator");
 const errorFormater = require("../Utilities/errorFormater");
+const jwt = require('jsonwebtoken');
+
 
 exports.signupGetControler = (req, res, next) => {
   res.render("pages/auth/signup.ejs", {
@@ -16,13 +18,8 @@ exports.signupPostController = async (req, res, next) => {
   const error = validationResult(req).formatWith(errorFormater);
   if (!error.isEmpty()) {
     let err = error.mapped();
-    return res.render("pages/auth/signup.ejs", {
-      title: "Create a new account",
-      error: err,
-      value: { username, email, password },
-    });
+    return res.send(err);
   }
-
   try {
     const hashPassword = await bcrypt.hash(password, 10);
     const user = new User({
@@ -30,27 +27,16 @@ exports.signupPostController = async (req, res, next) => {
       email,
       password: hashPassword,
     });
-
     const createdUser = await user.save();
-    console.log(createdUser);
-    res.render("pages/auth/signup.ejs", {
-      title: "Create a new account",
-      error: {},
-      value: {},
-    });
+    return res.send(createdUser)
+
   } catch (error) {
     console.log(error);
   }
 };
 
 exports.logingetController = (req, res, next) => {
-  console.log(req.session.isLoggedIn,req.session.user);
- 
-  res.render("pages/auth/login", {
-    title: "Login your account",
-    error: {},
-    value: {},
-  });
+
 };
 
 exports.loginPostController = async (req, res, next) => {
@@ -58,11 +44,9 @@ exports.loginPostController = async (req, res, next) => {
   const error = validationResult(req).formatWith(errorFormater);
   if (!error.isEmpty()) {
     const err = error.mapped();
-    return res.render("pages/auth/login", {
-      title: "Login your account",
-      error: err,
-      value: { email, password },
-    });
+ return res.status(500).send({
+  error:err
+ });
   }
 
   try {
@@ -79,14 +63,15 @@ exports.loginPostController = async (req, res, next) => {
         message: "invalid credential",
       });
     }
-    req.session.isLoggedIn = true
-    req.session.user = user
-    req.session.save(error=> {
-      console.log(error);
-      return next(error)
-    })
-  
-    res.redirect("/dashboard")
+    const payload = {
+      id: user._id,
+      email:user.email
+    }
+    const token = jwt.sign(payload,process.env.SECRET_KEY,{expiresIn:"2d"})
+return res.status(200).send({
+  user:user,
+  token:token
+})
   } catch (error) {
     console.log(error);
   }
@@ -99,3 +84,10 @@ exports.logoutController = (req, res, next) => {
   })
    res.redirect('/auth/login');
 };
+
+
+exports.profileController= (req,res,next)=> {
+  res.send({
+    user:req.user
+  })
+}
