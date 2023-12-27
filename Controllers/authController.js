@@ -6,15 +6,12 @@ const jwt = require('jsonwebtoken');
 
 
 exports.signupGetControler = (req, res, next) => {
-  res.render("pages/auth/signup.ejs", {
-    title: "Create a new account",
-    error: {},
-    value: {},
-  });
+
 };
 
 exports.signupPostController = async (req, res, next) => {
   const { username, email, password } = req.body;
+  console.log(req.body);
   const error = validationResult(req).formatWith(errorFormater);
   if (!error.isEmpty()) {
     let err = error.mapped();
@@ -28,6 +25,7 @@ exports.signupPostController = async (req, res, next) => {
       password: hashPassword,
     });
     const createdUser = await user.save();
+    console.log(createdUser);
     return res.send(createdUser)
 
   } catch (error) {
@@ -70,7 +68,7 @@ exports.loginPostController = async (req, res, next) => {
     const token = jwt.sign(payload,process.env.SECRET_KEY,{expiresIn:"2d"})
 return res.status(200).send({
   user:user,
-  token:token
+  token:`Bearer ${token}`
 })
   } catch (error) {
     console.log(error);

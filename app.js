@@ -16,7 +16,7 @@ const cors = require("cors")
 
 
 // const uri = `mongodb+srv://exp_blog:MJ4n5c547YvJStkv@cluster0.trq2z.mongodb.net/blog_exp`;
-const uri = `mongodb://127.0.0.1:27017`;
+const uri = `mongodb://127.0.0.1:27017/exp-blog`;
 
 
 
